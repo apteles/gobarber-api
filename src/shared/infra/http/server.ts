@@ -1,11 +1,11 @@
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
-import routes from './routes';
 import 'reflect-metadata';
-import './database';
-import configUpload from './config/upload';
-import globalHanlder from './handlers/globalHanlder';
+import '@shared/infra/typeorm';
+import configUpload from '@config/upload';
+import globalHanlder from '@shared/handlers/globalHanlder';
+import routes from './routes';
 
 const app = express();
 
