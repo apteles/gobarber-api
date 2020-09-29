@@ -9,9 +9,9 @@ const appointmentRouter = Router();
 appointmentRouter.use(authenticated);
 
 // appointmentRouter.get('/', async (request, response) => {
-//   const appointmentRepository = new AppointmentRepository();
-//   const appointments = await appointmentRepository.find();
-//   return response.json(appointments);
+//  const appointmentRepository = new AppointmentRepository();
+//  const appointments = await appointmentRepository.find();
+//  return response.json(appointments);
 // });
 
 appointmentRouter.post('/', async (request, response) => {

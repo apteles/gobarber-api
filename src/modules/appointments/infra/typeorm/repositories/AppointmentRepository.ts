@@ -1,4 +1,4 @@
-import { AppointmentRepositoryInterface } from '@modules/appointments/repositories/AppointmentRepositoryInterface';
+import AppointmentRepositoryInterface from '@modules/appointments/repositories/AppointmentRepositoryInterface';
 import CreateAppointmentDTOInterface from '@modules/appointments/dto/CreateAppointmentDTOInterface';
 import { getRepository, Repository } from 'typeorm';
 import Appointment from '../entities/Appointment';
