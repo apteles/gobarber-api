@@ -1,8 +1,9 @@
-import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
+import { injectable, inject } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
-import User from '../models/User';
-import AppError from '../errors/AppError';
+import User from '@modules/users/infra/typeorm/entities/User';
+import AppError from '@shared/errors/AppError';
+import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
 
 interface Request {
   email: string;
@@ -14,11 +15,15 @@ interface Response {
   token: string;
 }
 
+@injectable()
 export default class AuthenticateUserService {
-  public async execute({ email, password }: Request): Promise<Response> {
-    const userRepository = getRepository(User);
+  constructor(
+    @inject('UserRepository')
+    private userRepository: UserRepositoryInterface,
+  ) {}
 
-    const user = await userRepository.findOne({ where: { email } });
+  public async execute({ email, password }: Request): Promise<Response> {
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('Email or password incorrect');
@@ -33,10 +38,6 @@ export default class AuthenticateUserService {
       subject: user.id,
       expiresIn: '7d',
     });
-
-    delete user.password;
-    delete user.created_at;
-    delete user.updated_at;
 
     return {
       user,
