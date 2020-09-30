@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 import multer from 'multer';
 import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateAvatarService from '@modules/users/services/UpdateAvatarService';
@@ -25,8 +26,7 @@ usersRouter.patch(
     const {
       user: { id: user_id },
     } = request;
-    const userRepository = new UserRepository();
-    const updateAvatar = new UpdateAvatarService(userRepository);
+    const updateAvatar = container.resolve(UpdateAvatarService);
     await updateAvatar.execute({
       user_id,
       avatarFileName: request.file.filename,

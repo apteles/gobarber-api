@@ -1,16 +1,18 @@
+import 'reflect-metadata';
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
-import 'reflect-metadata';
-import '@shared/infra/typeorm';
+
 import configUpload from '@config/upload';
 import globalHanlder from '@shared/handlers/globalHanlder';
 import routes from './routes';
+import '@shared/infra/typeorm';
+import '@shared/container';
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use('/files', express.static(configUpload.tempPath));
 
 app.use(routes);
