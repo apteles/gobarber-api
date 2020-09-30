@@ -1,12 +1,9 @@
 import { Router } from 'express';
-import { container } from 'tsyringe';
-import { parseISO } from 'date-fns';
-import AppointmentRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentRepository';
-import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 import authenticated from '@modules/users/infra/http/middlewares/authenticated';
+import AppointmentController from '../controllers/AppointmentController';
 
 const appointmentRouter = Router();
-
+const appointmentController = new AppointmentController();
 appointmentRouter.use(authenticated);
 
 // appointmentRouter.get('/', async (request, response) => {
@@ -15,19 +12,6 @@ appointmentRouter.use(authenticated);
 //  return response.json(appointments);
 // });
 
-appointmentRouter.post('/', async (request, response) => {
-  const { date, provider_id } = request.body;
-
-  const parsedDate = parseISO(date);
-
-  const appointmentServiceCreate = container.resolve(CreateAppointmentService);
-
-  const appointment = await appointmentServiceCreate.execute({
-    date: parsedDate,
-    provider_id,
-  });
-
-  return response.json(appointment);
-});
+appointmentRouter.post('/', appointmentController.create);
 
 export default appointmentRouter;
