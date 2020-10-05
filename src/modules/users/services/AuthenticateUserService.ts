@@ -1,9 +1,9 @@
-import { compare } from 'bcryptjs';
 import { injectable, inject } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
 import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
+import HashInterface from '../providers/HashProvider/models/HashInterface';
 
 interface Request {
   email: string;
@@ -20,6 +20,8 @@ export default class AuthenticateUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: UserRepositoryInterface,
+    @inject('BCryptHashProvider')
+    private hashProvider: HashInterface,
   ) {}
 
   public async execute({ email, password }: Request): Promise<Response> {
@@ -29,12 +31,16 @@ export default class AuthenticateUserService {
       throw new AppError('Email or password incorrect');
     }
 
-    const isMatch = await compare(password, user.password);
+    const isMatch = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
+
     if (!isMatch) {
       throw new AppError('Email or password incorrect');
     }
 
-    const token = sign({}, process.env.APP_SECRET as string, {
+    const token = sign({}, 'secret' as string, {
       subject: user.id,
       expiresIn: '7d',
     });
