@@ -1,6 +1,6 @@
 import StorageInterface from '../models/StorageInterface';
 
-export default class DiskStorageProvider implements StorageInterface {
+export default class FakeStorageProvider implements StorageInterface {
   private storage: string[] = [];
 
   public async saveFile(file: string): Promise<string> {

@@ -1,8 +1,5 @@
-import fs from 'fs';
-import path from 'path';
 import { inject, injectable } from 'tsyringe';
 import User from '@modules/users/infra/typeorm/entities/User';
-import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import StorageInterface from '@shared/container/providers/StorageProvider/models/StorageInterface';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
