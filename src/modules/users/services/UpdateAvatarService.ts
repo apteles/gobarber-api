@@ -1,16 +1,24 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+import { inject, injectable } from 'tsyringe';
 import User from '@modules/users/infra/typeorm/entities/User';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
+import StorageInterface from '@shared/container/providers/StorageProvider/models/StorageInterface';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
 
 interface Request {
   user_id: string;
   avatarFileName: string;
 }
+injectable();
 class UpdateAvatarService {
-  constructor(private userRepository: UserRepositoryInterface) {}
+  constructor(
+    @inject('UserRepository')
+    private userRepository: UserRepositoryInterface,
+    @inject('DiskStorageProvider')
+    private storageProvider: StorageInterface,
+  ) {}
 
   public async execute({ user_id, avatarFileName }: Request): Promise<User> {
     const user = await this.userRepository.findById(user_id);
@@ -20,17 +28,11 @@ class UpdateAvatarService {
     }
 
     if (user.avatar) {
-      const avatarPath = path.join(uploadConfig.tempPath, user.avatar);
-      const avatarFileExists = await fs.promises.stat(avatarPath);
-      if (avatarFileExists) {
-        await fs.promises.unlink(avatarPath);
-      }
+      this.storageProvider.deleteFile(user.avatar);
     }
 
-    if (user.avatar === avatarFileName) {
-      return user;
-    }
-    user.avatar = avatarFileName;
+    const fileName = await this.storageProvider.saveFile(avatarFileName);
+    user.avatar = fileName;
 
     await this.userRepository.create(user);
 
