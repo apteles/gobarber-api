@@ -1,6 +1,7 @@
 import UserRepositoryInterface from '@modules/users/repositories/UserRepositoryInterface';
 import CreateUserDTOInterface from '@modules/users/dto/CreateUserDTOInterface';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
+import FindProviderDTOInterface from '@modules/users/dto/FindProviderDTOInterface';
 import User from '../entities/User';
 
 class UserRepository implements UserRepositoryInterface {
@@ -12,6 +13,15 @@ class UserRepository implements UserRepositoryInterface {
 
   public async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
+  }
+
+  public async findAllProviders({
+    except,
+  }: FindProviderDTOInterface): Promise<User[]> {
+    if (except.id) {
+      return this.ormRepository.find({ where: Not(except.id) });
+    }
+    return this.ormRepository.find();
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
