@@ -4,7 +4,7 @@ import 'express-async-errors';
 import cors from 'cors';
 
 import configUpload from '@config/upload';
-import globalHanlder from '@shared/handlers/globalHanlder';
+import globalHandler from '@shared/handlers/globalHandler';
 import routes from './routes';
 import '@shared/infra/typeorm';
 import '@shared/container';
@@ -17,7 +17,7 @@ app.use('/files', express.static(configUpload.tempPath));
 
 app.use(routes);
 
-app.use(globalHanlder);
+app.use(globalHandler);
 
 app.listen(3333, () => {
   // eslint-disable-next-line no-console

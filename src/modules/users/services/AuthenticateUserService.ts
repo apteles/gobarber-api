@@ -40,7 +40,7 @@ export default class AuthenticateUserService {
       throw new AppError('Email or password incorrect');
     }
 
-    const token = sign({}, 'secret' as string, {
+    const token = sign({}, 'your_secret' as string, {
       subject: user.id,
       expiresIn: '7d',
     });
