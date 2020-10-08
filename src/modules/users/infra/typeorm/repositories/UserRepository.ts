@@ -19,7 +19,7 @@ class UserRepository implements UserRepositoryInterface {
     except,
   }: FindProviderDTOInterface): Promise<User[]> {
     if (except.id) {
-      return this.ormRepository.find({ where: Not(except.id) });
+      return this.ormRepository.find({ where: { id: Not(except.id) } });
     }
     return this.ormRepository.find();
   }
