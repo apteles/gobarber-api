@@ -6,6 +6,9 @@ export default interface AppointmentRepositoryInterface {
   create(data: CreateAppointmentDTOInterface): Promise<Appointment>;
   findByDate(date: Date): Promise<Appointment | undefined>;
   findAllInMonthFromProvider(
+    data: Omit<FindInMonthProviderDTOInterface, 'day'>,
+  ): Promise<Appointment[]>;
+  findAllInDayFromProvider(
     data: FindInMonthProviderDTOInterface,
   ): Promise<Appointment[]>;
 }

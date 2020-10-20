@@ -1,5 +1,5 @@
 import { uuid } from 'uuidv4';
-import { getMonth, getYear, isEqual } from 'date-fns';
+import { getDate, getMonth, getYear, isEqual } from 'date-fns';
 import AppointmentRepositoryInterface from '@modules/appointments/repositories/AppointmentRepositoryInterface';
 import CreateAppointmentDTOInterface from '@modules/appointments/dto/CreateAppointmentDTOInterface';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
@@ -38,6 +38,23 @@ class FakeAppointmentRepository implements AppointmentRepositoryInterface {
         appointment.provider_id === provider_id &&
         getMonth(appointment.date) + 1 === month &&
         getYear(appointment.date) === year,
+    );
+
+    return appointments;
+  }
+
+  public async findAllInDayFromProvider({
+    provider_id,
+    month,
+    year,
+    day,
+  }: FindInMonthProviderDTOInterface): Promise<Appointment[]> {
+    const appointments = this.appointments.filter(
+      appointment =>
+        appointment.provider_id === provider_id &&
+        getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) === year &&
+        getDate(appointment.date) === day,
     );
 
     return appointments;
