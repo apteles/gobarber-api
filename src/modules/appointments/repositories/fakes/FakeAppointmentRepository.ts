@@ -18,11 +18,12 @@ class FakeAppointmentRepository implements AppointmentRepositoryInterface {
 
   public async create({
     provider_id,
+    user_id,
     date,
   }: CreateAppointmentDTOInterface): Promise<Appointment> {
     const appointment = new Appointment();
 
-    Object.assign(appointment, { id: uuid, date, provider_id });
+    Object.assign(appointment, { id: uuid, date, provider_id, user_id });
     this.appointments.push(appointment);
 
     return appointment;
