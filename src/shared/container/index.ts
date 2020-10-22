@@ -7,6 +7,8 @@ import UserRepository from '@modules/users/infra/typeorm/repositories/UserReposi
 import UserTokenRepository from '@modules/users/infra/typeorm/repositories/UserTokenRepository';
 import UserRepositoryInterface from '@modules/users/repositories/UserRepositoryInterface';
 import UserTokenRepositoryInterface from '@modules/users/repositories/UserTokenRepositoryInterface';
+import NotificationsRepositoryInterface from '@modules/notifications/repositories/NotificationsRepositoryInterface';
+import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationRepository';
 
 container.registerSingleton<AppointmentRepositoryInterface>(
   'AppointmentRepository',
@@ -20,4 +22,9 @@ container.registerSingleton<UserRepositoryInterface>(
 container.registerSingleton<UserTokenRepositoryInterface>(
   'UserTokenRepository',
   UserTokenRepository,
+);
+
+container.registerSingleton<NotificationsRepositoryInterface>(
+  'NotificationRepository',
+  NotificationRepository,
 );
