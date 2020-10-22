@@ -1,6 +1,7 @@
 import path from 'path';
 import MailProviderInterface from '@shared/container/providers/MailProvider/models/MailProviderInterface';
 import AppError from '@shared/errors/AppError';
+import appConfig from '@config/app';
 import { inject, injectable } from 'tsyringe';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
 import UserTokenRepositoryInterface from '../repositories/UserTokenRepositoryInterface';
@@ -38,7 +39,7 @@ export default class SendForgotEmailService {
         view: path.resolve(__dirname, '..', 'views', 'forgot_password.hbs'),
         variables: {
           name: user.name,
-          link: `http://localhost:3333/reset_password?token=${token}`,
+          link: `${appConfig.WEB_URL}/reset_password?token=${token}`,
         },
       },
     });

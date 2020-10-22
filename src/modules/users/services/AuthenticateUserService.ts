@@ -2,6 +2,7 @@ import { injectable, inject } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
 import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
+import authConfig from '@config/auth';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
 import HashInterface from '../providers/HashProvider/models/HashInterface';
 
@@ -40,9 +41,9 @@ export default class AuthenticateUserService {
       throw new AppError('Email or password incorrect');
     }
 
-    const token = sign({}, 'your_secret' as string, {
+    const token = sign({}, authConfig.secret as string, {
       subject: user.id,
-      expiresIn: '7d',
+      expiresIn: authConfig.expiresIn,
     });
 
     return {
