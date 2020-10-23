@@ -15,7 +15,7 @@ export default class SendForgotEmailService {
   constructor(
     @inject('UserRepository')
     private userRepository: UserRepositoryInterface,
-    @inject('EtherealMailProvider')
+    @inject('MailProvider')
     private mailProvider: MailProviderInterface,
     @inject('UserTokenRepository')
     private userTokenRepository: UserTokenRepositoryInterface,
