@@ -8,7 +8,8 @@ interface Request {
   user_id: string;
   avatarFileName: string;
 }
-injectable();
+
+@injectable()
 class UpdateAvatarService {
   constructor(
     @inject('UserRepository')
@@ -31,7 +32,7 @@ class UpdateAvatarService {
     const fileName = await this.storageProvider.saveFile(avatarFileName);
     user.avatar = fileName;
 
-    await this.userRepository.create(user);
+    await this.userRepository.save(user);
 
     return user;
   }

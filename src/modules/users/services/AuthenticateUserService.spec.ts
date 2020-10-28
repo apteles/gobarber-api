@@ -1,3 +1,4 @@
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import AppError from '@shared/errors/AppError';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import FakerUsersRepository from '../repositories/fakes/FakeUserRepository';
@@ -8,7 +9,8 @@ describe('AuthenticateUser', () => {
   it('should be able authenticate user', async () => {
     const fakerUser = new FakerUsersRepository();
     const hashFaker = new FakeHashProvider();
-    const createUser = new CreateUserService(fakerUser, hashFaker);
+    const cacheFaker = new FakeCacheProvider();
+    const createUser = new CreateUserService(fakerUser, hashFaker, cacheFaker);
     const auth = new AuthenticateUserService(fakerUser, hashFaker);
 
     const user = await createUser.execute({
@@ -40,7 +42,8 @@ describe('AuthenticateUser', () => {
   it('should not be able authenticate with wrong credentials', async () => {
     const fakerUser = new FakerUsersRepository();
     const hashFaker = new FakeHashProvider();
-    const createUser = new CreateUserService(fakerUser, hashFaker);
+    const cacheFaker = new FakeCacheProvider();
+    const createUser = new CreateUserService(fakerUser, hashFaker, cacheFaker);
     const auth = new AuthenticateUserService(fakerUser, hashFaker);
 
     await createUser.execute({

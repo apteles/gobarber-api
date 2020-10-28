@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import User from '@modules/users/infra/typeorm/entities/User';
+import CacheProviderInterface from '@shared/container/providers/CacheProvider/models/CacheProviderInterface';
 import UserRepositoryInterface from '../repositories/UserRepositoryInterface';
 import HashInterface from '../providers/HashProvider/models/HashInterface';
 
@@ -16,6 +17,8 @@ export default class CreateUserService {
     private userRepository: UserRepositoryInterface,
     @inject('BCryptHashProvider')
     private hashProvider: HashInterface,
+    @inject('CacheProvider')
+    private cache: CacheProviderInterface,
   ) {}
 
   public async execute({ name, email, password }: Request): Promise<User> {
@@ -32,6 +35,8 @@ export default class CreateUserService {
       email,
       password: hashedPassword,
     });
+
+    this.cache.invalidateByPrefix('providers-list');
 
     return user;
   }

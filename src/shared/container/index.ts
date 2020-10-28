@@ -10,6 +10,8 @@ import UserTokenRepositoryInterface from '@modules/users/repositories/UserTokenR
 import NotificationsRepositoryInterface from '@modules/notifications/repositories/NotificationsRepositoryInterface';
 import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationRepository';
 
+import './providers/CacheProvider';
+
 container.registerSingleton<AppointmentRepositoryInterface>(
   'AppointmentRepository',
   AppointmentRepository,

@@ -5,6 +5,8 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Exclude, Expose } from 'class-transformer';
+import appConfig from '@config/app';
 
 @Entity('users')
 class User {
@@ -21,6 +23,7 @@ class User {
   avatar: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @CreateDateColumn()
@@ -28,6 +31,21 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    if (!this.avatar) {
+      return null;
+    }
+    switch (appConfig.storage.driver) {
+      case 'local':
+        return `${appConfig.API_URL}/files/${this.avatar}`;
+      case 's3':
+        return `https://${appConfig.storage.bucket}.s3.amazonaws.com/${this.avatar}`;
+      default:
+        return null;
+    }
+  }
 }
 
 export default User;

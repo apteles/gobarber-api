@@ -3,6 +3,7 @@
 /tmp
 !/tmp.gitkeep
 
+ormconfig.json
 # Logs
 logs
 *.log
