@@ -39,7 +39,7 @@ export default class SendForgotEmailService {
         view: path.resolve(__dirname, '..', 'views', 'forgot_password.hbs'),
         variables: {
           name: user.name,
-          link: `${appConfig.WEB_URL}/reset_password?token=${token}`,
+          link: `${appConfig.WEB_URL}/reset-password?token=${token}`,
         },
       },
     });
