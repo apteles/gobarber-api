@@ -1,4 +1,5 @@
 import CacheProviderInterface from '@shared/container/providers/CacheProvider/models/CacheProviderInterface';
+import { classToClass } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import AppointmentRepositoryInterface from '../repositories/AppointmentRepositoryInterface';
@@ -36,7 +37,7 @@ class ListProviderAppointmentService {
 
       this.cache.save(
         `provider-appointments:${user_id}:${year}-${month}-${day}`,
-        appointments,
+        classToClass(appointments),
       );
     }
 
