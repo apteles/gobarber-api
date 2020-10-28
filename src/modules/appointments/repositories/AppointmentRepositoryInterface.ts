@@ -4,7 +4,7 @@ import FindInMonthProviderDTOInterface from '../dto/FindInMonthProviderDTOInterf
 
 export default interface AppointmentRepositoryInterface {
   create(data: CreateAppointmentDTOInterface): Promise<Appointment>;
-  findByDate(date: Date): Promise<Appointment | undefined>;
+  findByDate(date: Date, provider_id: string): Promise<Appointment | undefined>;
   findAllInMonthFromProvider(
     data: Omit<FindInMonthProviderDTOInterface, 'day'>,
   ): Promise<Appointment[]>;
