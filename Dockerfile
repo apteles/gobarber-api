@@ -8,6 +8,8 @@ EXPOSE 3333
 EXPOSE 9229
 ENV PORT 3333
 WORKDIR /app
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn config list
