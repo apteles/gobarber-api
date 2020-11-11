@@ -4,7 +4,7 @@ export default {
     redis: {
       host: 'redis',
       port: 6379,
-      password: undefined,
+      password: process.env.REDIS_PASSWORD,
     },
   },
 };
