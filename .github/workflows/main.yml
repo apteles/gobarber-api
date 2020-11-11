@@ -17,7 +17,7 @@ jobs:
         run: yarn
       - name: Generating build
         run: yarn build
-      - name: Deploying 
+      - name: Deploying
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -26,7 +26,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: ".,!node_modules"
           target: "/srv/gobarber-api"
-      - name: Setup project in server 
+      - name: Setup project in server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -34,9 +34,9 @@ jobs:
           port: ${{ secrets.SSH_HOST_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /src/gobarber-api
+            cd /srv/gobarber-api
             yarn
             ./node_modules/.bin/typeorm migration:run
             pm2 restart gobarber-api
-          
-        
+
+
