@@ -1,0 +1,25 @@
+version: '2.4'
+volumes:
+  mongodata:
+  redisdata:
+services:
+  mongo:
+    image: bitnami/mongodb:latest
+    environment:
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+    ports:
+      - '27017:27017'
+    restart: unless-stopped
+    volumes:
+      - mongodata:/data/db
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
