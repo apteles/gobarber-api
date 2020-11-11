@@ -10,7 +10,7 @@ interface Request {
   email: string;
   password: string;
 }
-injectable();
+@injectable();
 export default class CreateUserService {
   constructor(
     @inject('UserRepository')
