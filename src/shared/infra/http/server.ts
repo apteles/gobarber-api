@@ -22,7 +22,9 @@ app.use(routes);
 app.use(errors());
 app.use(globalHandler);
 
-app.listen(3333, () => {
+const PORT = process.env.APP_PORT || 3333;
+
+app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('>>> Server running on port 3333');
+  console.log(`>>> Server running on port ${PORT}`);
 });
