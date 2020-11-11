@@ -35,6 +35,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /srv/gobarber-api
+            source ~/.bash_profile
             yarn
             ./node_modules/.bin/typeorm migration:run
             pm2 restart gobarber-api
